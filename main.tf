@@ -18,6 +18,6 @@ resource "azurerm_mssql_database" "database" {
   zone_redundant = true
 
   threat_detection_policy {
-    state                      = "Disabled"
+    state                      = "Enabled"
   }
 }

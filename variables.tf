@@ -40,9 +40,9 @@ variable "sku_name" {
   type        = string
   description = "sku_name"
 }
-variable " zone_redundant" {
+variable "zone_redundant" {
   type        = bool
-  description = " zone_redundant"
+  description =  "zone_redundant"
 }
 
 

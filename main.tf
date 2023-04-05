@@ -13,7 +13,7 @@ resource "azurerm_mssql_database" "database" {
   collation      = "SQL_Latin1_General_CP1_CI_AS"
   license_type   = "LicenseIncluded"
   max_size_gb    = var.max_size_gb
-  read_scale     = var.resource
+  read_scale     = var.read_scale
   sku_name       = var.sku_name
   zone_redundant = var.zone_redundant
 

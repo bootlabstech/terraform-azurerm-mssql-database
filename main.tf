@@ -27,3 +27,22 @@ resource "random_password" "password" {
  length = 16
  special = true
 }
+resource "azurerm_key_vault_secret" "mysql_username" {
+ name = "${var.name}-username"
+ value = azurerm_mssql_server.mssql.administrator_login
+ key_vault_id = data.azurerm_key_vault.key_vault.id
+
+}
+
+
+resource "azurerm_key_vault_secret" "mysql_password" {
+ name  = "${var.name}-password"
+ value = random_password.password.result
+ key_vault_id = data.azurerm_key_vault.key_vault.id
+
+}
+
+data "azurerm_key_vault" "key_vault" {
+ name  = var.keyvault_name
+ resource_group_name = var.resource_group_name
+}

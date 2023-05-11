@@ -28,7 +28,7 @@ resource "random_password" "password" {
  special = true
 }
 resource "azurerm_key_vault_secret" "mysql_username" {
- name = "${var.name}-username"
+ name = "${var.mssql_name}-username"
  value = azurerm_mssql_server.mssql.administrator_login
  key_vault_id = data.azurerm_key_vault.key_vault.id
 
@@ -36,7 +36,7 @@ resource "azurerm_key_vault_secret" "mysql_username" {
 
 
 resource "azurerm_key_vault_secret" "mysql_password" {
- name  = "${var.name}-password"
+ name  = "${var.mssql_name}-password"
  value = random_password.password.result
  key_vault_id = data.azurerm_key_vault.key_vault.id
 

@@ -46,3 +46,9 @@ data "azurerm_key_vault" "key_vault" {
  name  = var.keyvault_name
  resource_group_name = var.resource_group_name
 }
+resource "azurerm_mssql_firewall_rule" "example" {
+  name             = "FirewallRule1"
+  server_id        = azurerm_mssql_server.mssql.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}

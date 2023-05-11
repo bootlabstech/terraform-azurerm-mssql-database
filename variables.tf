@@ -25,10 +25,10 @@ variable "administrator_login" {
   description = "name of the administrator_login"
 }
 
-# variable "administrator_login_password" {
-#   type        = string
-#   description = "name of the administrator_login_password"
-# }
+variable "keyvault_name" {
+  type        = string
+  description = "name of the administrator_login_password"
+}
 
 variable "mssql_name" {
   type        = string

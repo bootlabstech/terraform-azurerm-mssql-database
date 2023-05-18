@@ -1,11 +1,15 @@
+data "azurerm_key_vault" "key_vault" {
+ name  = var.keyvault_name
+ resource_group_name = var.resource_group_name
+}
 resource "azurerm_mssql_server" "mssql" {
-  # for_each= { for i in var.server_details : i.mssql_name => i }
-  name                         = var.mssql_name
+  for_each= { for i in var.server_details : i.name => i }
+  name                         = each.value.name
   resource_group_name          = var.resource_group_name
-  location                     = var.location
+  location                     = each.value.location
   version                      = "12.0"
-  administrator_login          = var.administrator_login
-  administrator_login_password = random_password.password.result
+  administrator_login          = each.value.administrator_login
+  administrator_login_password = random_password.password[each.key].result
 }
 
 resource "azurerm_mssql_database" "database" {
@@ -24,31 +28,36 @@ resource "azurerm_mssql_database" "database" {
   }
 }
 resource "random_password" "password" {
- length = 16
- special = true
-}
-resource "azurerm_key_vault_secret" "mysql_username" {
- name = "${var.mssql_name}-username"
- value = azurerm_mssql_server.mssql.administrator_login
- key_vault_id = data.azurerm_key_vault.key_vault.id
+  for_each= { for i in var.server_details : i.name => i }
+    length = 8
+    lower = true
+    min_lower = 1
+    min_numeric= 1
+    min_special= 1
+    min_upper= 1
+    numeric = true
+    override_special = "_"
+    special = true
+    upper = true
+    
 
 }
 
 
 resource "azurerm_key_vault_secret" "mysql_password" {
- name  = "${var.mssql_name}-password"
- value = random_password.password.result
+ for_each= { for i in var.server_details : i.name => i }
+
+ name  = each.value.name
+ value = random_password.password[each.key].result
  key_vault_id = data.azurerm_key_vault.key_vault.id
 
 }
 
-data "azurerm_key_vault" "key_vault" {
- name  = var.keyvault_name
- resource_group_name = var.resource_group_name
-}
+
 resource "azurerm_mssql_firewall_rule" "example" {
-  name             = "FirewallRule1"
-  server_id        = azurerm_mssql_server.mssql.id
+  for_each= { for i in var.server_details : i.name => i }
+  name  = "${each.value.name}-rule"
+  server_id        = each.value.name
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }

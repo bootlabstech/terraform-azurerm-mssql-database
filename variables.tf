@@ -9,15 +9,7 @@ variable "server_details" {
   type = list(object({
     administrator_login = string,
     name = string
-    location = string
-  }))
-  description = "value"
-
-
-}
-
-variable "db_details" {
-  type = list(object({
+    location = string,
     database_name = string,
     read_scale = string
     sku_name = string,
@@ -28,6 +20,19 @@ variable "db_details" {
 
 
 }
+
+# variable "db_details" {
+#   type = list(object({
+#     database_name = string,
+#     read_scale = string
+#     sku_name = string,
+#     zone_redundant = string,
+#     max_size_gb = number
+#   }))
+#   description = "value"
+
+
+# }
 
 # variable "administrator_login" {
 #   type        = string

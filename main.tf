@@ -13,9 +13,9 @@ resource "azurerm_mssql_server" "mssql" {
 }
 
 resource "azurerm_mssql_database" "database" {
-  for_each= { for i in var.db_details : i.database_name => i }
+  for_each= { for i in var.server_details : i.name => i }
   name           = each.value.database_name
-  server_id      = azurerm_mssql_server.mssql.id
+  server_id      = each.value.name
   collation      = "SQL_Latin1_General_CP1_CI_AS"
   license_type   = "LicenseIncluded"
   max_size_gb    = each.value.max_size_gb

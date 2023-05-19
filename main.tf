@@ -15,7 +15,7 @@ resource "azurerm_mssql_server" "mssql" {
 resource "azurerm_mssql_database" "database" {
   for_each= { for i in var.server_details : i.name => i }
   name           = each.value.database_name
-  server_id      = each.value.name
+  server_id      = azurerm_mssql_server.mssql[each.key].id
   collation      = "SQL_Latin1_General_CP1_CI_AS"
   license_type   = "LicenseIncluded"
   max_size_gb    = each.value.max_size_gb
@@ -47,7 +47,7 @@ resource "random_password" "password" {
 resource "azurerm_key_vault_secret" "mysql_password" {
  for_each= { for i in var.server_details : i.name => i }
 
- name  = each.value.name
+ name  = "${each.value.name}-password"
  value = random_password.password[each.key].result
  key_vault_id = data.azurerm_key_vault.key_vault.id
 
@@ -57,7 +57,7 @@ resource "azurerm_key_vault_secret" "mysql_password" {
 resource "azurerm_mssql_firewall_rule" "example" {
   for_each= { for i in var.server_details : i.name => i }
   name  = "${each.value.name}-rule"
-  server_id        = each.value.name
+  server_id        = azurerm_mssql_server.mssql[each.key].id
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }

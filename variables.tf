@@ -1,52 +1,42 @@
-
-
-variable "resource_group_name" {
+variable "name" {
   type        = string
-  description = "name of the resource group"
+  description = "The name of the MS SQL Database. Changing this forces a new resource to be created."
 }
 
-variable "server_details" {
-  type = list(object({
-    administrator_login = string,
-    name = string
-    location = string,
-    database_name = string,
-    read_scale = string
-    sku_name = string,
-    zone_redundant = string,
-    max_size_gb = number
-  }))
-  description = "value"
-
-
-}
-
-# variable "db_details" {
-#   type = list(object({
-#     database_name = string,
-#     read_scale = string
-#     sku_name = string,
-#     zone_redundant = string,
-#     max_size_gb = number
-#   }))
-#   description = "value"
-
-
-# }
-
-# variable "administrator_login" {
-#   type        = string
-#   description = "name of the administrator_login"
-# }
-
-variable "keyvault_name" {
+variable "server_id" {
   type        = string
-  description = "name of the administrator_login_password"
+  description = "The id of the MS SQL Server on which to create the database. Changing this forces a new resource to be created."
 }
 
-# variable "mssql_name" {
-#   type        = string
-#   description = "read_scale"
-# }
+variable "collation" {
+  type        = string
+  description = " Specifies the collation of the database. Changing this forces a new resource to be created."
+}
 
+variable "license_type" {
+  type        = string
+  description = "Specifies the license type applied to this database. Possible values are LicenseIncluded and BasePrice."
+}
 
+variable "max_size_gb" {
+  type        = string
+  description = "The max size of the database in gigabytes."
+}
+
+variable "read_scale" {
+  type        = string
+  description = "If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases."
+}
+
+variable "sku_name" {
+  type        = bool
+  description = "Specifies the name of the SKU used by the database. For example, GP_S_Gen5_2,HS_Gen4_1,BC_Gen5_2, ElasticPool, Basic,S0, P2 ,DW100c, DS100."
+}
+variable "geo_backup_enabled" {
+  type        = number
+  description = "Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones. This property is only settable for Premium and Business Critical databases."
+}
+variable "state" {
+  type        = string
+  description = "The State of the Policy. Possible values are Enabled, Disabled or New."
+}

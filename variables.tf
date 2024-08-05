@@ -8,10 +8,10 @@ variable "server_id" {
   description = "The id of the MS SQL Server on which to create the database. Changing this forces a new resource to be created."
 }
 
-variable "collation" {
-  type        = string
-  description = " Specifies the collation of the database. Changing this forces a new resource to be created."
-}
+# variable "collation" {
+#   type        = string
+#   description = " Specifies the collation of the database. Changing this forces a new resource to be created."
+# }
 
 variable "license_type" {
   type        = string
@@ -30,7 +30,7 @@ variable "read_scale" {
 }
 
 variable "sku_name" {
-  type        = bool
+  type        = string
   description = "Specifies the name of the SKU used by the database. For example, GP_S_Gen5_2,HS_Gen4_1,BC_Gen5_2, ElasticPool, Basic,S0, P2 ,DW100c, DS100."
 }
 variable "geo_backup_enabled" {
